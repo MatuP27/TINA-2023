@@ -1,0 +1,59 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training</title>
+    {% load static %}
+    <script type="text/javascript" src="{% static 'train.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'train.css' %}">
+</head>
+<body id='main'>
+    <div class='main-container'>
+    <h1>PÁGINA DE ENTRENAMIENTO</h1>
+    <div id='capture-container'>
+    <input class='capture-input' id='input-qty' type='number' placeholder='Qty'></input>
+    <input class='capture-input' id='input-delay' type='number' placeholder='Delay'></input>
+    <a href="{% url 'training' %}">
+        <button class="btn btn-primary" id="capture-button" onclick="onCapture()">Capturar</button>
+    </a>
+    <a href="{% url 'predict' %}">
+        <button class="btn btn-danger" id="remove-all-button" onclick="onRemove()">Borrar</button>
+    </a>
+    </div>
+    <br><br><br>
+    <form id="upload-form" action="{% url 'upload' %}" method="POST" role="form">
+    {% csrf_token %}
+    {% if product_list %}
+    <div id='form-container'>
+    <select id="select-products" onchange="drawInfo()">
+        <option value="">Seleccione producto...</option>
+        {% for product in product_list %}
+        <option value={{product.alias}}>{{ product.name }}</option>
+        {% endfor %}
+    </select>
+    {% else %}
+    <p>No hay productos.</p>
+    {% endif %}
+    
+    {% if score_list %}
+    <select id="select-score" onchange="drawInfo()">
+        <option value="">Seleccione puntaje...</option>
+        {% for score in score_list %}
+        <option value={{score.number}}>{{ score.description }}</option>
+        {% endfor %}
+    </select>
+    {% else %}
+    <p>No hay productos.</p>
+    {% endif %}
+    <button type="submit" class="btn btn-success" id="upload-button" disabled>Enviar Modelo</button>
+    </div>
+    </form>
+    <p id="info" class='info-empty'>...</p>
+    <div class='pictures-collection' id='pictures-collection'>
+
+    </div>
+</div>
+    
+</body>
+
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Predict</title>
+
+    {% load static %}
+    <script type="text/javascript" src="{% static 'train.js' %}" defer></script>
+    <link rel="stylesheet" href="{% static 'predict.css' %}">
+
+    <!-- <style>
+        #drop_zone {
+            border: 5px solid rgb(248, 98, 215);
+            width:  200px;
+            height: 100px;
+        }
+    </style> -->
+</head>
+<body>
+    <main>
+        <h2 class="predict">PREDICT</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {%csrf_token%}
+            <!-- <input type="text" name="product" placeholder="Product"> -->
+            <br>
+            <input type="file" name="picture">
+            <!-- <div id="drop_zone" ondrop="dropHandler(event);" ondragover="dragOverHandler(event);">
+                <p>Drag one or more files to this Drop Zone ...</p>
+            </div> -->
+            <button type="submit">Predict</button>
+        </form>
+        <h2 class="predict2">PRODUCT: {{productPredict}} </h2>    
+        <h2 class="predict2">PICTURE SCORE: {{scorePredict}} </h2>    
+    </main>
+    <script>
+        function dropHandler(ev) {
+            console.log('File(s) dropped');
+
+            // Evita el comportamiento predeterminado (evita que se abra el archivo)
+            ev.preventDefault();
+
+            if (ev.dataTransfer.items) {
+                // Utilice la interfaz DataTransferItemList para acceder a los archivos
+                for (var i = 0; i < ev.dataTransfer.items.length; i++) {
+                // Si los elementos caídos no son archivos, rechácelos
+                if (ev.dataTransfer.items[i].kind === 'file') {
+                    var file = ev.dataTransfer.items[i].getAsFile();
+                    console.log('... file[' + i + '].name = ' + file.name);
+                }
+                }
+            } else {
+                // Utilice la interfaz DataTransfer para acceder a los archivos
+                for (var i = 0; i < ev.dataTransfer.files.length; i++) {
+                console.log('... file[' + i + '].name = ' + ev.dataTransfer.files[i].name);
+                }
+            }
+        }
+        function dragOverHandler(ev) {
+            console.log('File(s) in drop zone');
+
+            // Evita el comportamiento predeterminado (evita que se abra el archivo)
+            ev.preventDefault();
+            }
+    </script>
+</body>
+</html>
+
