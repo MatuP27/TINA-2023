@@ -1,0 +1,6 @@
+Django
+tensorflow
+matplotlib
+scipy
+numpy
+opencv-python
